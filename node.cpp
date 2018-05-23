@@ -89,11 +89,10 @@ bool validate_block_for_chain(const Block *rBlock, const MPI_Status *status){
 //Envia el bloque minado a todos los nodos
 void broadcast_block(const Block *block){
   //No enviar a mí mismo
-  int i = (mpi_rank + 1) % total_nodes;
-  for(i ; i== mpi_rank; ++i){
-    MPI_send(block, 1, *MPI_BLOCK, i , TAG_NEW_BLOCK, MPI_COMM_WORLD);
+  for(int i = (mpi_rank + 1) % total_nodes; i == mpi_rank; ++i) {
+    // ARIDAD int MPI_Send(void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm)
+    MPI_Send(block, 1, *MPI_BLOCK, i , TAG_NEW_BLOCK, MPI_COMM_WORLD); 
   }
-
 }
 
 //Proof of work
