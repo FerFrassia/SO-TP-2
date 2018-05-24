@@ -89,13 +89,10 @@ bool validate_block_for_chain(const Block *rBlock, const MPI_Status *status){
 
 //Envia el bloque minado a todos los nodos
 void broadcast_block(const Block *block){
-  //No enviar a mí mismo
-  // for(int i = (mpi_rank + 1) % total_nodes; i == mpi_rank; i = (i + 1) % total_nodes){
-    // ARIDAD int MPI_Send(void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm)
-    // MPI_Send(block, 1, *MPI_BLOCK, i, TAG_NEW_BLOCK, MPI_COMM_WORLD); 
-  // }
-  printf("[%d] enviando a %d \n", mpi_rank, (mpi_rank+1)%2);
-  MPI_Isend(block, 1, *MPI_BLOCK, (mpi_rank+1)%2, TAG_NEW_BLOCK, MPI_COMM_WORLD, request);
+  for(int i = (mpi_rank + 1) % total_nodes; i == mpi_rank; i = (i + 1) % total_nodes){
+    printf("[%d] enviando a %d \n", mpi_rank, i);
+    MPI_Isend(block, 1, *MPI_BLOCK, i, TAG_NEW_BLOCK, MPI_COMM_WORLD, request); 
+  }
 }
 
 //Proof of work
@@ -166,12 +163,13 @@ int node(){
   pthread_t thread;
   pthread_create(&thread, NULL, proof_of_work, NULL);
 
-  Block* block_received;
+  Block* block_received = new Block;
   while(true){
 
       //TODO: Recibir mensajes de otros nodos
-      MPI_Irecv(block_received, 1, *MPI_BLOCK, (mpi_rank + 1) % 2, TAG_NEW_BLOCK, MPI_COMM_WORLD, request);
-      
+      for(int i = (mpi_rank + 1) % total_nodes; i == mpi_rank; i = (i + 1) % total_nodes){
+        MPI_Irecv(block_received, 1, *MPI_BLOCK, i, TAG_NEW_BLOCK, MPI_COMM_WORLD, request);
+      }
       //TODO: Si es un mensaje de nuevo bloque, llamar a la función
       // validate_block_for_chain con el bloque recibido y el estado de MPI
 
