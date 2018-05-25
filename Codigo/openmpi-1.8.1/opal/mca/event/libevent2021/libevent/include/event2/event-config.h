@@ -136,7 +136,7 @@
 /* #undef _EVENT_HAVE_KQUEUE */
 
 /* Define if the system has zlib */
-#define _EVENT_HAVE_LIBZ 1
+/* #undef _EVENT_HAVE_LIBZ */
 
 /* Define to 1 if you have the <memory.h> header file. */
 #define _EVENT_HAVE_MEMORY_H 1
@@ -373,7 +373,7 @@
 /* #undef _EVENT_HAVE_WORKING_KQUEUE */
 
 /* Define to 1 if you have the <zlib.h> header file. */
-#define _EVENT_HAVE_ZLIB_H 1
+/* #undef _EVENT_HAVE_ZLIB_H */
 
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
    */

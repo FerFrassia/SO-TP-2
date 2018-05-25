@@ -17,7 +17,7 @@ old_library='libvt-mt.a'
 inherited_linker_flags=' -pthread'
 
 # Libraries that this one depends upon.
-dependency_libs=' -L/home/fer/Documents/Sistemas/SO-TP-2/Codigo/openmpi-1.8.1/ompi/contrib/vt/vt/../../../.libs /home/fer/Documents/Sistemas/SO-TP-2/Codigo/openmpi-1.8.1/ompi/contrib/vt/vt/extlib/otf/otflib/libopen-trace-format.la -lz -ldl -lrt -lnsl -lutil -lm'
+dependency_libs=' -L/home/fer/Documents/Sistemas/SO-TP-2/Codigo/openmpi-1.8.1/ompi/contrib/vt/vt/../../../.libs /home/fer/Documents/Sistemas/SO-TP-2/Codigo/openmpi-1.8.1/ompi/contrib/vt/vt/extlib/otf/otflib/libopen-trace-format.la -ldl -lrt -lnsl -lutil -lm'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''

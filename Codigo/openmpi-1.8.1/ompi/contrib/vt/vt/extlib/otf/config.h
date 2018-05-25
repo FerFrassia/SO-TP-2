@@ -96,7 +96,7 @@
 /* #undef HAVE_VTF3 */
 
 /* */
-#define HAVE_ZLIB 1
+/* #undef HAVE_ZLIB */
 
 /* */
 /* #undef HAVE_ZOIDFS */

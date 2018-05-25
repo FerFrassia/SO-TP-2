@@ -1,12 +1,12 @@
 libopen_trace_format_la-OTF_File.lo: OTF_File.c \
  /usr/include/stdc-predef.h ../config.h OTF_Platform.h \
- OTF_Platform_unix.h /usr/lib/gcc/x86_64-linux-gnu/5/include/stdarg.h \
+ OTF_Platform_unix.h /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
  /usr/include/stdlib.h /usr/include/features.h \
  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
- /usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
  /usr/include/x86_64-linux-gnu/bits/waitstatus.h /usr/include/endian.h \
  /usr/include/x86_64-linux-gnu/bits/endian.h \
@@ -25,8 +25,8 @@ libopen_trace_format_la-OTF_File.lo: OTF_File.c \
  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
- /usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/limits.h \
- /usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/syslimits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/syslimits.h \
  /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
  /usr/include/linux/limits.h \
@@ -44,7 +44,7 @@ libopen_trace_format_la-OTF_File.lo: OTF_File.c \
  /usr/include/x86_64-linux-gnu/bits/param.h /usr/include/linux/param.h \
  /usr/include/x86_64-linux-gnu/asm/param.h \
  /usr/include/asm-generic/param.h OTF_inttypes.h OTF_inttypes_unix.h \
- /usr/lib/gcc/x86_64-linux-gnu/5/include/stdint.h /usr/include/stdint.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h /usr/include/stdio.h \
  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
@@ -65,9 +65,9 @@ libopen_trace_format_la-OTF_File.lo: OTF_File.c \
  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
  /usr/include/x86_64-linux-gnu/bits/environments.h \
  /usr/include/x86_64-linux-gnu/bits/confname.h /usr/include/getopt.h \
- /usr/include/x86_64-linux-gnu/bits/unistd.h /usr/include/zlib.h \
- /usr/include/zconf.h OTF_File.h OTF_FileManager.h OTF_Definitions.h \
- OTF_Version.h OTF_Filenames.h OTF_File_iofsl.h OTF_Errno.h
+ /usr/include/x86_64-linux-gnu/bits/unistd.h OTF_File.h OTF_FileManager.h \
+ OTF_Definitions.h OTF_Version.h OTF_Filenames.h OTF_File_iofsl.h \
+ OTF_Errno.h
 
 /usr/include/stdc-predef.h:
 
@@ -77,7 +77,7 @@ OTF_Platform.h:
 
 OTF_Platform_unix.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/5/include/stdarg.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h:
 
 /usr/include/stdlib.h:
 
@@ -91,7 +91,7 @@ OTF_Platform_unix.h:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h:
 
 /usr/include/x86_64-linux-gnu/bits/waitflags.h:
 
@@ -137,9 +137,9 @@ OTF_Platform_unix.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdlib.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/limits.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/syslimits.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/syslimits.h:
 
 /usr/include/limits.h:
 
@@ -185,7 +185,7 @@ OTF_inttypes.h:
 
 OTF_inttypes_unix.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/5/include/stdint.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h:
 
 /usr/include/stdint.h:
 
@@ -252,10 +252,6 @@ OTF_inttypes_unix.h:
 /usr/include/getopt.h:
 
 /usr/include/x86_64-linux-gnu/bits/unistd.h:
-
-/usr/include/zlib.h:
-
-/usr/include/zconf.h:
 
 OTF_File.h:
 

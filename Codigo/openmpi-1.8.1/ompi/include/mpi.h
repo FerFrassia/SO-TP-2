@@ -43,7 +43,7 @@
 #define OPAL_BUILD_PLATFORM_COMPILER_FAMILYID 1
 
 /* The compiler version which OMPI was built with */
-#define OPAL_BUILD_PLATFORM_COMPILER_VERSION 328704
+#define OPAL_BUILD_PLATFORM_COMPILER_VERSION 264196
 
 /* Define to 1 if you have the ANSI C header files. */
 #define OPAL_STDC_HEADERS 1

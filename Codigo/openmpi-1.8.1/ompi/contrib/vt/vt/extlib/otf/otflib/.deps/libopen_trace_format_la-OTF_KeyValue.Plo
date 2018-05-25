@@ -1,6 +1,6 @@
 libopen_trace_format_la-OTF_KeyValue.lo: OTF_KeyValue.c \
  /usr/include/stdc-predef.h OTF_KeyValue.h OTF_inttypes.h \
- OTF_inttypes_unix.h /usr/lib/gcc/x86_64-linux-gnu/5/include/stdint.h \
+ OTF_inttypes_unix.h /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h \
  /usr/include/stdint.h /usr/include/features.h \
  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
@@ -8,7 +8,7 @@ libopen_trace_format_la-OTF_KeyValue.lo: OTF_KeyValue.c \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h OTF_Definitions.h \
  OTF_Version.h OTF_Errno.h /usr/include/stdlib.h \
- /usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
  /usr/include/x86_64-linux-gnu/bits/waitstatus.h /usr/include/endian.h \
  /usr/include/x86_64-linux-gnu/bits/endian.h \
@@ -39,7 +39,7 @@ OTF_inttypes.h:
 
 OTF_inttypes_unix.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/5/include/stdint.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h:
 
 /usr/include/stdint.h:
 
@@ -63,7 +63,7 @@ OTF_Errno.h:
 
 /usr/include/stdlib.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h:
 
 /usr/include/x86_64-linux-gnu/bits/waitflags.h:
 

@@ -20,7 +20,7 @@ version=1.8.1
 language=C
 compiler_env=CC
 compiler_flags_env=CFLAGS
-compiler=gcc
+compiler=gcc -std=gnu99
 extra_includes=
 preprocessor_flags=  
 compiler_flags=-pthread 

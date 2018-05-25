@@ -1,15 +1,15 @@
 runtime/opal_init.lo: runtime/opal_init.c /usr/include/stdc-predef.h \
  ../opal/include/opal_config.h ../opal/include/opal_config_top.h \
  ../opal/include/opal_config_bottom.h ../opal/include/opal_config.h \
- /usr/lib/gcc/x86_64-linux-gnu/5/include/stdint.h /usr/include/stdint.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
- /usr/lib/gcc/x86_64-linux-gnu/5/include/stdbool.h \
- /usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/limits.h \
- /usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/syslimits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdbool.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/syslimits.h \
  /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
  /usr/include/linux/limits.h \
@@ -17,7 +17,7 @@ runtime/opal_init.lo: runtime/opal_init.c /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
  /usr/include/x86_64-linux-gnu/sys/param.h \
- /usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
  /usr/include/x86_64-linux-gnu/sys/types.h \
  /usr/include/x86_64-linux-gnu/bits/types.h \
  /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/time.h \
@@ -47,8 +47,8 @@ runtime/opal_init.lo: runtime/opal_init.c /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib.h ../opal/util/arch.h \
- /usr/lib/gcc/x86_64-linux-gnu/5/include/float.h /usr/include/assert.h \
- ../opal/util/output.h /usr/lib/gcc/x86_64-linux-gnu/5/include/stdarg.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/float.h /usr/include/assert.h \
+ ../opal/util/output.h /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
  ../opal/class/opal_object.h ../opal/include/opal/sys/atomic.h \
  ../opal/include/opal/sys/architecture.h \
  ../opal/include/opal/sys/amd64/atomic.h \
@@ -151,7 +151,7 @@ runtime/opal_init.lo: runtime/opal_init.c /usr/include/stdc-predef.h \
 
 ../opal/include/opal_config.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/5/include/stdint.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h:
 
 /usr/include/stdint.h:
 
@@ -167,11 +167,11 @@ runtime/opal_init.lo: runtime/opal_init.c /usr/include/stdc-predef.h \
 
 /usr/include/x86_64-linux-gnu/bits/wchar.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/5/include/stdbool.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdbool.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/limits.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/syslimits.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/syslimits.h:
 
 /usr/include/limits.h:
 
@@ -189,7 +189,7 @@ runtime/opal_init.lo: runtime/opal_init.c /usr/include/stdc-predef.h \
 
 /usr/include/x86_64-linux-gnu/sys/param.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h:
 
 /usr/include/x86_64-linux-gnu/sys/types.h:
 
@@ -265,13 +265,13 @@ runtime/opal_init.lo: runtime/opal_init.c /usr/include/stdc-predef.h \
 
 ../opal/util/arch.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/5/include/float.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/float.h:
 
 /usr/include/assert.h:
 
 ../opal/util/output.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/5/include/stdarg.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h:
 
 ../opal/class/opal_object.h:
 

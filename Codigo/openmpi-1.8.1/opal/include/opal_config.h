@@ -952,7 +952,7 @@
 #define HAVE_UTMP_H 1
 
 /* Define to 1 if you have the <valgrind/valgrind.h> header file. */
-#define HAVE_VALGRIND_VALGRIND_H 1
+/* #undef HAVE_VALGRIND_VALGRIND_H */
 
 /* Define to 1 if you have the `vasprintf' function. */
 #define HAVE_VASPRINTF 1
@@ -967,7 +967,7 @@
 #define HAVE_WAITPID 1
 
 /* Define to 1 if you have the <X11/Xlib.h> header file. */
-#define HAVE_X11_XLIB_H 1
+/* #undef HAVE_X11_XLIB_H */
 
 /* Define to 1 if you have the <xpmem.h> header file. */
 /* #undef HAVE_XPMEM_H */
@@ -1243,7 +1243,7 @@
 /* #undef MCA_hwloc_external_openfabrics_header */
 
 /* Complete set of command line arguments given to ROMIOs configure script */
-#define MCA_io_romio_COMPLETE_CONFIGURE_FLAGS " FROM_OMPI=yes CC='gcc' CFLAGS='-O3 -DNDEBUG -finline-functions -fno-strict-aliasing -pthread' CPPFLAGS='  -I/home/fer/Documents/Sistemas/SO-TP-2/Codigo/openmpi-1.8.1/opal/mca/hwloc/hwloc172/hwloc/include -I/home/fer/Documents/Sistemas/SO-TP-2/Codigo/openmpi-1.8.1/opal/mca/event/libevent2021/libevent -I/home/fer/Documents/Sistemas/SO-TP-2/Codigo/openmpi-1.8.1/opal/mca/event/libevent2021/libevent/include' FFLAGS='' LDFLAGS=' ' --enable-shared --disable-static  --prefix=/home/fer/.openmpi --disable-aio"
+#define MCA_io_romio_COMPLETE_CONFIGURE_FLAGS " FROM_OMPI=yes CC='gcc -std=gnu99' CFLAGS='-O3 -DNDEBUG -finline-functions -fno-strict-aliasing -pthread' CPPFLAGS='  -I/home/fer/Documents/Sistemas/SO-TP-2/Codigo/openmpi-1.8.1/opal/mca/hwloc/hwloc172/hwloc/include -I/home/fer/Documents/Sistemas/SO-TP-2/Codigo/openmpi-1.8.1/opal/mca/event/libevent2021/libevent -I/home/fer/Documents/Sistemas/SO-TP-2/Codigo/openmpi-1.8.1/opal/mca/event/libevent2021/libevent/include' FFLAGS='' LDFLAGS=' ' --enable-shared --disable-static  --prefix=/home/fer/.openmpi --disable-aio"
 
 /* Set of user-defined configure flags given to ROMIOs configure script via
    --with-io-romio-flags */
@@ -2030,10 +2030,10 @@
 #define OPAL_BUILD_PLATFORM_COMPILER_FAMILYNAME GNU
 
 /* The compiler $lower which OMPI was built with */
-#define OPAL_BUILD_PLATFORM_COMPILER_VERSION 328704
+#define OPAL_BUILD_PLATFORM_COMPILER_VERSION 264196
 
 /* The compiler $lower which OMPI was built with */
-#define OPAL_BUILD_PLATFORM_COMPILER_VERSION_STR 5.4.0
+#define OPAL_BUILD_PLATFORM_COMPILER_VERSION_STR 4.8.4
 
 /* OMPI underlying C compiler */
 #define OPAL_CC "gcc"
@@ -2307,7 +2307,7 @@
 #define OPAL_NEED_C_BOOL 1
 
 /* package/branding string for Open MPI */
-#define OPAL_PACKAGE_STRING "Open MPI fer@Ubuntu-VirtualBox Distribution"
+#define OPAL_PACKAGE_STRING "Open MPI fer@fer-VirtualBox Distribution"
 
 /* Whether r notation is used for ppc registers */
 /* #undef OPAL_POWERPC_R_REGISTERS */

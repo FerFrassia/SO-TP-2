@@ -1,45 +1,45 @@
 otfdump.o: otfdump.cpp /usr/include/stdc-predef.h Handler.h \
- ../../config.h /usr/include/c++/5/map /usr/include/c++/5/bits/stl_tree.h \
- /usr/include/c++/5/bits/stl_algobase.h \
- /usr/include/x86_64-linux-gnu/c++/5/bits/c++config.h \
- /usr/include/x86_64-linux-gnu/c++/5/bits/os_defines.h \
+ ../../config.h /usr/include/c++/4.8/map \
+ /usr/include/c++/4.8/bits/stl_tree.h \
+ /usr/include/c++/4.8/bits/stl_algobase.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
- /usr/include/x86_64-linux-gnu/c++/5/bits/cpu_defines.h \
- /usr/include/c++/5/bits/functexcept.h \
- /usr/include/c++/5/bits/exception_defines.h \
- /usr/include/c++/5/bits/cpp_type_traits.h \
- /usr/include/c++/5/ext/type_traits.h \
- /usr/include/c++/5/ext/numeric_traits.h \
- /usr/include/c++/5/bits/stl_pair.h /usr/include/c++/5/bits/move.h \
- /usr/include/c++/5/bits/concept_check.h \
- /usr/include/c++/5/bits/stl_iterator_base_types.h \
- /usr/include/c++/5/bits/stl_iterator_base_funcs.h \
- /usr/include/c++/5/debug/debug.h /usr/include/c++/5/bits/stl_iterator.h \
- /usr/include/c++/5/bits/ptr_traits.h \
- /usr/include/c++/5/bits/predefined_ops.h \
- /usr/include/c++/5/bits/allocator.h \
- /usr/include/x86_64-linux-gnu/c++/5/bits/c++allocator.h \
- /usr/include/c++/5/ext/new_allocator.h /usr/include/c++/5/new \
- /usr/include/c++/5/exception \
- /usr/include/c++/5/bits/atomic_lockfree_defines.h \
- /usr/include/c++/5/bits/memoryfwd.h \
- /usr/include/c++/5/bits/stl_function.h \
- /usr/include/c++/5/backward/binders.h \
- /usr/include/c++/5/ext/alloc_traits.h /usr/include/c++/5/bits/stl_map.h \
- /usr/include/c++/5/bits/stl_multimap.h \
- /usr/include/c++/5/bits/range_access.h ../../otflib/OTF_inttypes.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h \
+ /usr/include/c++/4.8/bits/functexcept.h \
+ /usr/include/c++/4.8/bits/exception_defines.h \
+ /usr/include/c++/4.8/bits/cpp_type_traits.h \
+ /usr/include/c++/4.8/ext/type_traits.h \
+ /usr/include/c++/4.8/ext/numeric_traits.h \
+ /usr/include/c++/4.8/bits/stl_pair.h /usr/include/c++/4.8/bits/move.h \
+ /usr/include/c++/4.8/bits/concept_check.h \
+ /usr/include/c++/4.8/bits/stl_iterator_base_types.h \
+ /usr/include/c++/4.8/bits/stl_iterator_base_funcs.h \
+ /usr/include/c++/4.8/debug/debug.h \
+ /usr/include/c++/4.8/bits/stl_iterator.h \
+ /usr/include/c++/4.8/bits/allocator.h \
+ /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h \
+ /usr/include/c++/4.8/ext/new_allocator.h /usr/include/c++/4.8/new \
+ /usr/include/c++/4.8/exception \
+ /usr/include/c++/4.8/bits/atomic_lockfree_defines.h \
+ /usr/include/c++/4.8/bits/memoryfwd.h \
+ /usr/include/c++/4.8/bits/stl_function.h \
+ /usr/include/c++/4.8/backward/binders.h \
+ /usr/include/c++/4.8/bits/stl_map.h \
+ /usr/include/c++/4.8/bits/stl_multimap.h \
+ /usr/include/c++/4.8/bits/range_access.h ../../otflib/OTF_inttypes.h \
  ../../otflib/OTF_inttypes_unix.h \
- /usr/lib/gcc/x86_64-linux-gnu/5/include/stdint.h /usr/include/stdint.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h ../../otflib/otf.h \
  ../../otflib/OTF_Definitions.h ../../otflib/OTF_Version.h \
  ../../otflib/OTF_KeyValue.h ../../otflib/OTF_inttypes.h \
  ../../otflib/OTF_FileManager.h ../../otflib/OTF_Filenames.h \
  ../../otflib/OTF_HandlerArray.h ../../otflib/OTF_Writer.h \
  ../../otflib/OTF_MasterControl.h /usr/include/stdlib.h \
- /usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
  /usr/include/x86_64-linux-gnu/bits/waitstatus.h /usr/include/endian.h \
  /usr/include/x86_64-linux-gnu/bits/endian.h \
@@ -59,7 +59,7 @@ otfdump.o: otfdump.cpp /usr/include/stdc-predef.h Handler.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib.h /usr/include/stdio.h \
  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
- /usr/lib/gcc/x86_64-linux-gnu/5/include/stdarg.h \
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
  /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
  /usr/include/x86_64-linux-gnu/bits/stdio.h \
@@ -68,11 +68,13 @@ otfdump.o: otfdump.cpp /usr/include/stdc-predef.h Handler.h \
  ../../otflib/OTF_WBuffer.h ../../otflib/OTF_RBuffer.h \
  ../../otflib/OTF_WStream.h ../../otflib/OTF_RStream.h \
  ../../otflib/OTF_Reader.h /usr/include/assert.h \
- /usr/include/x86_64-linux-gnu/bits/timex.h /usr/include/c++/5/vector \
- /usr/include/c++/5/bits/stl_construct.h \
- /usr/include/c++/5/bits/stl_uninitialized.h \
- /usr/include/c++/5/bits/stl_vector.h \
- /usr/include/c++/5/bits/stl_bvector.h /usr/include/c++/5/bits/vector.tcc
+ /usr/include/x86_64-linux-gnu/bits/timex.h /usr/include/c++/4.8/vector \
+ /usr/include/c++/4.8/bits/stl_construct.h \
+ /usr/include/c++/4.8/ext/alloc_traits.h \
+ /usr/include/c++/4.8/bits/stl_uninitialized.h \
+ /usr/include/c++/4.8/bits/stl_vector.h \
+ /usr/include/c++/4.8/bits/stl_bvector.h \
+ /usr/include/c++/4.8/bits/vector.tcc
 
 /usr/include/stdc-predef.h:
 
@@ -80,15 +82,15 @@ Handler.h:
 
 ../../config.h:
 
-/usr/include/c++/5/map:
+/usr/include/c++/4.8/map:
 
-/usr/include/c++/5/bits/stl_tree.h:
+/usr/include/c++/4.8/bits/stl_tree.h:
 
-/usr/include/c++/5/bits/stl_algobase.h:
+/usr/include/c++/4.8/bits/stl_algobase.h:
 
-/usr/include/x86_64-linux-gnu/c++/5/bits/c++config.h:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/c++config.h:
 
-/usr/include/x86_64-linux-gnu/c++/5/bits/os_defines.h:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/os_defines.h:
 
 /usr/include/features.h:
 
@@ -100,67 +102,61 @@ Handler.h:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 
-/usr/include/x86_64-linux-gnu/c++/5/bits/cpu_defines.h:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/cpu_defines.h:
 
-/usr/include/c++/5/bits/functexcept.h:
+/usr/include/c++/4.8/bits/functexcept.h:
 
-/usr/include/c++/5/bits/exception_defines.h:
+/usr/include/c++/4.8/bits/exception_defines.h:
 
-/usr/include/c++/5/bits/cpp_type_traits.h:
+/usr/include/c++/4.8/bits/cpp_type_traits.h:
 
-/usr/include/c++/5/ext/type_traits.h:
+/usr/include/c++/4.8/ext/type_traits.h:
 
-/usr/include/c++/5/ext/numeric_traits.h:
+/usr/include/c++/4.8/ext/numeric_traits.h:
 
-/usr/include/c++/5/bits/stl_pair.h:
+/usr/include/c++/4.8/bits/stl_pair.h:
 
-/usr/include/c++/5/bits/move.h:
+/usr/include/c++/4.8/bits/move.h:
 
-/usr/include/c++/5/bits/concept_check.h:
+/usr/include/c++/4.8/bits/concept_check.h:
 
-/usr/include/c++/5/bits/stl_iterator_base_types.h:
+/usr/include/c++/4.8/bits/stl_iterator_base_types.h:
 
-/usr/include/c++/5/bits/stl_iterator_base_funcs.h:
+/usr/include/c++/4.8/bits/stl_iterator_base_funcs.h:
 
-/usr/include/c++/5/debug/debug.h:
+/usr/include/c++/4.8/debug/debug.h:
 
-/usr/include/c++/5/bits/stl_iterator.h:
+/usr/include/c++/4.8/bits/stl_iterator.h:
 
-/usr/include/c++/5/bits/ptr_traits.h:
+/usr/include/c++/4.8/bits/allocator.h:
 
-/usr/include/c++/5/bits/predefined_ops.h:
+/usr/include/x86_64-linux-gnu/c++/4.8/bits/c++allocator.h:
 
-/usr/include/c++/5/bits/allocator.h:
+/usr/include/c++/4.8/ext/new_allocator.h:
 
-/usr/include/x86_64-linux-gnu/c++/5/bits/c++allocator.h:
+/usr/include/c++/4.8/new:
 
-/usr/include/c++/5/ext/new_allocator.h:
+/usr/include/c++/4.8/exception:
 
-/usr/include/c++/5/new:
+/usr/include/c++/4.8/bits/atomic_lockfree_defines.h:
 
-/usr/include/c++/5/exception:
+/usr/include/c++/4.8/bits/memoryfwd.h:
 
-/usr/include/c++/5/bits/atomic_lockfree_defines.h:
+/usr/include/c++/4.8/bits/stl_function.h:
 
-/usr/include/c++/5/bits/memoryfwd.h:
+/usr/include/c++/4.8/backward/binders.h:
 
-/usr/include/c++/5/bits/stl_function.h:
+/usr/include/c++/4.8/bits/stl_map.h:
 
-/usr/include/c++/5/backward/binders.h:
+/usr/include/c++/4.8/bits/stl_multimap.h:
 
-/usr/include/c++/5/ext/alloc_traits.h:
-
-/usr/include/c++/5/bits/stl_map.h:
-
-/usr/include/c++/5/bits/stl_multimap.h:
-
-/usr/include/c++/5/bits/range_access.h:
+/usr/include/c++/4.8/bits/range_access.h:
 
 ../../otflib/OTF_inttypes.h:
 
 ../../otflib/OTF_inttypes_unix.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/5/include/stdint.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h:
 
 /usr/include/stdint.h:
 
@@ -188,7 +184,7 @@ Handler.h:
 
 /usr/include/stdlib.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h:
 
 /usr/include/x86_64-linux-gnu/bits/waitflags.h:
 
@@ -242,7 +238,7 @@ Handler.h:
 
 /usr/include/wchar.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/5/include/stdarg.h:
+/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
 
@@ -272,14 +268,16 @@ Handler.h:
 
 /usr/include/x86_64-linux-gnu/bits/timex.h:
 
-/usr/include/c++/5/vector:
+/usr/include/c++/4.8/vector:
 
-/usr/include/c++/5/bits/stl_construct.h:
+/usr/include/c++/4.8/bits/stl_construct.h:
 
-/usr/include/c++/5/bits/stl_uninitialized.h:
+/usr/include/c++/4.8/ext/alloc_traits.h:
 
-/usr/include/c++/5/bits/stl_vector.h:
+/usr/include/c++/4.8/bits/stl_uninitialized.h:
 
-/usr/include/c++/5/bits/stl_bvector.h:
+/usr/include/c++/4.8/bits/stl_vector.h:
 
-/usr/include/c++/5/bits/vector.tcc:
+/usr/include/c++/4.8/bits/stl_bvector.h:
+
+/usr/include/c++/4.8/bits/vector.tcc:

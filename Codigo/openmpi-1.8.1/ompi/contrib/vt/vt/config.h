@@ -339,7 +339,7 @@
 #define HAVE_WAITID 1
 
 /* Define to 1 if you have the ZLIB. */
-#define HAVE_ZLIB 1
+/* #undef HAVE_ZLIB */
 
 /* Define to 1 if you have the `__fprintf_chk' function. */
 #define HAVE___FPRINTF_CHK 1

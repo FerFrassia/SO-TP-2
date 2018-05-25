@@ -330,7 +330,7 @@
 /* #undef HAVE_X11_KEYSYM_H */
 
 /* Define to 1 if you have the <X11/Xlib.h> header file. */
-#define HAVE_X11_XLIB_H 1
+/* #undef HAVE_X11_XLIB_H */
 
 /* Define to 1 if you have the <X11/Xutil.h> header file. */
 /* #undef HAVE_X11_XUTIL_H */
