@@ -89,7 +89,7 @@ bool validate_block_for_chain(const Block *rBlock, const MPI_Status *status){
 
 //Envia el bloque minado a todos los nodos
 void broadcast_block(const Block *block){
-  for(int i = (mpi_rank + 1) % total_nodes; i == mpi_rank; i = (i + 1) % total_nodes){
+  for(int i = (mpi_rank + 1) % total_nodes; i != mpi_rank; i = (i + 1) % total_nodes){
     printf("[%d] enviando a %d \n", mpi_rank, i);
     MPI_Isend(block, 1, *MPI_BLOCK, i, TAG_NEW_BLOCK, MPI_COMM_WORLD, request); 
   }
@@ -127,7 +127,7 @@ void* proof_of_work(void *ptr){
             strcpy(last_block_in_chain->block_hash, hash_hex_str.c_str());
             last_block_in_chain->created_at = static_cast<unsigned long int> (time(NULL));
             node_blocks[hash_hex_str] = *last_block_in_chain;
-            printf("[%d] Agregué un producido con index %d \n",mpi_rank,last_block_in_chain->index);
+            printf("[%d] Agregué un bloque con index %d \n",mpi_rank,last_block_in_chain->index);
 
             //TODO: Mientras comunico, no responder mensajes de nuevos nodos
             broadcast_block(last_block_in_chain);
@@ -163,14 +163,24 @@ int node(){
   pthread_t thread;
   pthread_create(&thread, NULL, proof_of_work, NULL);
 
-  Block* block_received = new Block;
+  MPI_Status status;
+  int amount_received = -1;
   while(true){
 
       //TODO: Recibir mensajes de otros nodos
-      for(int i = (mpi_rank + 1) % total_nodes; i == mpi_rank; i = (i + 1) % total_nodes){
-        MPI_Irecv(block_received, 1, *MPI_BLOCK, i, TAG_NEW_BLOCK, MPI_COMM_WORLD, request);
-      }
+      MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+      MPI_Get_count(&status, *MPI_BLOCK, &amount_received);
+      
+      // for(int i = (mpi_rank + 1) % total_nodes; i == mpi_rank; i = (i + 1) % total_nodes){
+        // MPI_Irecv(block_received, 1, *MPI_BLOCK, i, TAG_NEW_BLOCK, MPI_COMM_WORLD, request);
+      // }
       //TODO: Si es un mensaje de nuevo bloque, llamar a la función
+      if (amount_received == 1) {
+        Block* block_received = new Block;
+        MPI_Recv(block_received , amount_received, *MPI_BLOCK, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+        printf("[%d] Recibí un bloque con index %d \n", mpi_rank, block_received->index);
+        validate_block_for_chain(block_received, &status);
+      }
       // validate_block_for_chain con el bloque recibido y el estado de MPI
 
       //TODO: Si es un mensaje de pedido de cadena,
