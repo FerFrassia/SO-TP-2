@@ -230,6 +230,7 @@ int node(){
 
       //TODO: Si es un mensaje de nuevo bloque, llamar a la función
       // validate_block_for_chain con el bloque recibido y el estado de MPI
+	if(status.MPI_TAG == TAG_NEW_BLOCK){
       MPI_Get_count(&status, *MPI_BLOCK, &amount_blocks_received);
       if (amount_blocks_received == 1) {
         Block* block_received = new Block;
@@ -241,6 +242,7 @@ int node(){
         validate_block_for_chain(block_received, &status);
         amount_blocks_received = 0;
       }
+	}
 
       //TODO: Si es un mensaje de pedido de cadena,
       //responderlo enviando los bloques correspondientes
