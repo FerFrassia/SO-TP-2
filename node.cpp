@@ -161,7 +161,8 @@ void* proof_of_work(void *sem){
 
       //Contar la cantidad de ceros iniciales (con el nuevo nonce)
       if(solves_problem(hash_hex_str)){
-
+    lastBlockMtx.lock();//acá pondría un lock, lo critico seria modificar el mapa y el puntero en esta funcion
+    //Movemos el lock aca por que asi no se modifica 2 veces el last block in chain  cuando me broadcastearon un nuevo bloque 
           //Verifico que no haya cambiado mientras calculaba
           if(last_block_in_chain->index < block.index){
             mined_blocks += 1;
@@ -170,7 +171,7 @@ void* proof_of_work(void *sem){
             block.previous_block_hash[HASH_SIZE] = last_block_in_chain->block_hash[HASH_SIZE];
             /////FIN CAMBIO
             
-		lastBlockMtx.lock();//acá pondría un lock, lo critico seria modificar el mapa y el puntero en esta funcion
+		
             *last_block_in_chain = block;
             
             strcpy(last_block_in_chain->block_hash, hash_hex_str.c_str());
