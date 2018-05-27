@@ -9,10 +9,13 @@
 #include <mpi.h>
 #include <map>
 #include <semaphore.h>
+#include <mutex>
 
 int total_nodes, mpi_rank;
 Block *last_block_in_chain;
 map<string,Block> node_blocks;
+
+mutex lastBlockMtx;
 
 MPI_Request* request = new MPI_Request;
 
@@ -56,14 +59,14 @@ bool verificar_y_migrar_cadena(const Block *rBlock, const MPI_Status *status){
 void agregar_como_ultimo(Block* b) {
   strcpy(b->previous_block_hash, last_block_in_chain->block_hash);
   last_block_in_chain = b;  
-	//aca iria el unlock
+	lastBlockMtx.unlock();//aca iria el unlock
 }
 
 //Verifica que el bloque tenga que ser incluido en la cadena, y lo agrega si corresponde
 bool validate_block_for_chain(Block *rBlock, const MPI_Status *status){
   if(valid_new_block(rBlock)){
 	
-	//aca pondria el lock, porque lo critico me parece que es el mapa, el puntero y el chequeo de condiciones en este caso(el chequeo de condiciones va a cambiar si se agrego un nodo minado o no), por lo tanto el unlock iria en la funcion agregar_como_ultimo
+	lastBlockMtx.lock();//aca pondria el lock, porque lo critico me parece que es el mapa, el puntero y el chequeo de condiciones en este caso(el chequeo de condiciones va a cambiar si se agrego un nodo minado o no), por lo tanto el unlock iria en la funcion agregar_como_ultimo
 
     //Agrego el bloque al diccionario, aunque no
     //necesariamente eso lo agrega a la cadena
@@ -87,6 +90,8 @@ bool validate_block_for_chain(Block *rBlock, const MPI_Status *status){
       printf("[%d] Agregué el bloque con index %d, enviado por %d, a la lista \n", mpi_rank, rBlock->index, status->MPI_SOURCE);
       return true;
     }
+	lastBlockMtx.unlock();//aca iría unlock porque acá se terminan los chequeos que efectivamente agregan bloques, y si llego acá es porque aun no retorné
+
 
     //TODO: Si el índice del bloque recibido es
     //el siguiente a mí último bloque actual,
@@ -165,13 +170,13 @@ void* proof_of_work(void *sem){
             block.previous_block_hash[HASH_SIZE] = last_block_in_chain->block_hash[HASH_SIZE];
             /////FIN CAMBIO
             
-		//acá pondría un lock, lo critico seria modificar el mapa y el puntero en esta funcion
+		lastBlockMtx.lock();//acá pondría un lock, lo critico seria modificar el mapa y el puntero en esta funcion
             *last_block_in_chain = block;
             
             strcpy(last_block_in_chain->block_hash, hash_hex_str.c_str());
             last_block_in_chain->created_at = static_cast<unsigned long int> (time(NULL));
             node_blocks[hash_hex_str] = *last_block_in_chain;
-		//acá pondría el unlock
+		lastBlockMtx.unlock();//acá pondría el unlock
             printf("[%d] Miné el bloque con index %d \n", mpi_rank, last_block_in_chain->index);
 
             //TODO: Mientras comunico, no responder mensajes de nuevos nodos
