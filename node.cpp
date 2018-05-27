@@ -214,9 +214,6 @@ int node(){
   int amount_hash_received = 0;
   while(true){
 
-      //para no escuchar mensajes mientras se está broadcasteando
-      sem_wait(sem_broadcast);
-      sem_post(sem_broadcast);
 
       //TODO: Recibir mensajes de otros nodos
       MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
@@ -226,7 +223,10 @@ int node(){
       MPI_Get_count(&status, *MPI_BLOCK, &amount_blocks_received);
       if (amount_blocks_received == 1) {
         Block* block_received = new Block;
+	 //para no escuchar mensajes de nuevos bloques mientras se está broadcasteando
+      sem_wait(sem_broadcast);
         MPI_Recv(block_received , amount_blocks_received, *MPI_BLOCK, MPI_ANY_SOURCE, TAG_NEW_BLOCK, MPI_COMM_WORLD, &status);
+	sem_post(sem_broadcast);//la duda seria si el post va aca o mas abajo
         printf("[%d] Recibí el bloque con index %d, del nodo %d \n", mpi_rank, block_received->index, status.MPI_SOURCE);
         validate_block_for_chain(block_received, &status);
         amount_blocks_received = 0;
