@@ -24,31 +24,34 @@ MPI_Request* request = new MPI_Request;
 bool verificar_y_migrar_cadena(const Block *rBlock, const MPI_Status *status){
   Block* blockchain = new Block[VALIDATION_BLOCKS];
 
-  // if (rBlock->index - last_block_in_chain->index >  VALIDATION_BLOCKS) {
+  if (rBlock->index - last_block_in_chain->index >  VALIDATION_BLOCKS) {
+      // por seguridad no migro de cadena
+        delete []blockchain;
+        return false;
+  }
 
-  // }
+  //TODO: Enviar mensaje TAG_CHAIN_HASH
+  char* last_hash[HASH_SIZE];
+ // for(int i = (mpi_rank + 1) % total_nodes; i != mpi_rank; i = (i + 1) % total_nodes){
+    printf("[%d] Mando mensaje de cambio de cadena al nodo %d \n", mpi_rank, i);
+    strcpy(last_hash, rBlock->block_hash);
+    MPI_Isend(last_hash, HASH_SIZE, MPI_CHAR, status->MPI_SOURCE, TAG_CHAIN_HASH, MPI_COMM_WORLD, request); 
+  //}
 
-  // //TODO: Enviar mensaje TAG_CHAIN_HASH
-  // char* last_hash[HASH_SIZE];
-  // for(int i = (mpi_rank + 1) % total_nodes; i != mpi_rank; i = (i + 1) % total_nodes){
-  //   printf("[%d] Mando mensaje de cambio de cadena al nodo %d \n", mpi_rank, i);
-  //   MPI_Isend(last_hash, HASH_SIZE, MPI_CHAR, i, TAG_CHAIN_HASH, MPI_COMM_WORLD, request); 
-  // }
+  //TODO: Recibir mensaje TAG_CHAIN_RESPONSE
+  MPI_Status mistatus;
+  MPI_Recv(last_hash, HASH_SIZE, MPI_CHAR, MPI_ANY_SOURCE, TAG_CHAIN_RESPONSE, MPI_COMM_WORLD, &mistatus);
 
-  // //TODO: Recibir mensaje TAG_CHAIN_RESPONSE
-  // MPI_Status status;
-  // MPI_Recv(last_hash, HASH_SIZE, MPI_CHAR, MPI_ANY_SOURCE, TAG_CHAIN_RESPONSE, MPI_COMM_WORLD, &status);
-
-  // //TODO: Verificar que los bloques recibidos
-  // //sean válidos y se puedan acoplar a la cadena
-  // char* hash_to_check[HASH_SIZE];
-  // strcpy(hash_to_check, last_hash);
-  // while (hash_to_check != "") {
-  //   if (node_blocks.find(hash_to_check) == node_blocks.end()) {
-  //       delete []blockchain;
-  //       return false;
-  //   }
-  // }
+  //TODO: Verificar que los bloques recibidos
+  //sean válidos y se puedan acoplar a la cadena
+  char* hash_to_check[HASH_SIZE];
+  strcpy(hash_to_check, last_hash);
+  while (hash_to_check != "") {
+    if (node_blocks.find(hash_to_check) == node_blocks.end()) {
+        delete []blockchain;
+        return false;
+    }
+  }
   
 
 
@@ -248,12 +251,25 @@ int node(){
       //TODO: Si es un mensaje de pedido de cadena,
       //responderlo enviando los bloques correspondientes
       MPI_Get_count(&status, MPI_CHAR, &amount_hash_received);
-      if (amount_hash_received == HASH_SIZE) {
+      if (amount_hash_received == HASH_SIZE  && status.MPI_TAG == TAG_CHAIN_HASH) {
         char* hash_buffer[HASH_SIZE];
         MPI_Recv(hash_buffer, amount_hash_received, MPI_CHAR, MPI_ANY_SOURCE, TAG_CHAIN_HASH, MPI_COMM_WORLD, &status);
         printf("[%d] Recibí pedido de cambio de cadena del nodo %d \n", mpi_rank, status.MPI_SOURCE);
         MPI_Isend(last_block_in_chain->block_hash, HASH_SIZE, MPI_CHAR, status.MPI_SOURCE, TAG_CHAIN_RESPONSE, MPI_COMM_WORLD, request); 
+
+        Block* blockchain = new Block[VALIDATION_BLOCKS];
+        Block bloque = node_blocks[string(hash_buffer)];
+        int i;
+        for(i =0; i< VALIDATION_BLOCKS && bloque.index>1 ;++i){
+          blockchain[i] = bloque;
+          bloque=node_blocks[string(bloque.previous_block_hash)];
+        }
+        if(bloque.index ==1){
+          blockchain[i]= bloque;
+        }
+        MPI_Isend(blockchain, i+1, *MPI_BLOCK, status.MPI_SOURCE, TAG_CHAIN_RESPONSE, MPI_COMM_WORLD, request); 
         amount_hash_received = 0;
+         delete []blockchain;
       }
   }
 
