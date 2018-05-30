@@ -16,6 +16,7 @@ Block *last_block_in_chain;
 map<string,Block> node_blocks;
 
 mutex lastBlockMtx;
+mutex mutexChangeBlock;
 
 MPI_Request* request = new MPI_Request;
 
@@ -40,10 +41,23 @@ bool verificar_y_migrar_cadena(const Block *rBlock, const MPI_Status *status){
 
   //TODO: Recibir mensaje TAG_CHAIN_RESPONSE
   MPI_Status mistatus;
-  MPI_Recv(last_hash, HASH_SIZE, MPI_CHAR, MPI_ANY_SOURCE, TAG_CHAIN_RESPONSE, MPI_COMM_WORLD, &mistatus);
+  int amount_blocks_received;
+  MPI_Get_count(&status, *MPI_BLOCK, &amount_blocks_received);
+  MPI_Recv(blockchain, amount_blocks_received, *MPI_BLOCK, status->MPI_SOURCE, TAG_CHAIN_RESPONSE, MPI_COMM_WORLD, &mistatus);
 
   //TODO: Verificar que los bloques recibidos
   //sean válidos y se puedan acoplar a la cadena
+  string hash_hex_str;
+  block_to_hash(&blockchain[0],hash_hex_str);
+  if(blockchain[0].index !=rBlock.index || strcmp(hash_hex_str,last_hash)!=0){
+    delete []blockchain;
+    return false;
+  }
+
+
+
+  //esto no se que onda
+  /*
   char* hash_to_check[HASH_SIZE];
   strcpy(hash_to_check, last_hash);
   while (hash_to_check != "") {
@@ -51,7 +65,7 @@ bool verificar_y_migrar_cadena(const Block *rBlock, const MPI_Status *status){
         delete []blockchain;
         return false;
     }
-  }
+  }*/
   
 
 
@@ -167,7 +181,9 @@ void* proof_of_work(void *sem){
       if(solves_problem(hash_hex_str)){
     lastBlockMtx.lock();//acá pondría un lock, lo critico seria modificar el mapa y el puntero en esta funcion
     //Movemos el lock aca por que asi no se modifica 2 veces el last block in chain  cuando me broadcastearon un nuevo bloque 
-          //Verifico que no haya cambiado mientras calculaba
+          //Verifico que no haya cambiado mientras calcula
+    //Aca va mutex que evita el camgio de last block indevido (mutexChangeBlock)
+    mutexChangeBlock.lock();
           if(last_block_in_chain->index < block.index){
             mined_blocks += 1;
 
@@ -189,6 +205,7 @@ void* proof_of_work(void *sem){
             broadcast_block(last_block_in_chain);
             sem_post((sem_t*) sem);
           }
+          mutexChangeBlock.unlock();
       }
 
     }
@@ -244,7 +261,10 @@ int node(){
         MPI_Recv(block_received , amount_blocks_received, *MPI_BLOCK, MPI_ANY_SOURCE, TAG_NEW_BLOCK, MPI_COMM_WORLD, &status);
 	sem_post(sem_broadcast);//la duda seria si el post va aca o mas abajo
         printf("[%d] Recibí el bloque con index %d, del nodo %d \n", mpi_rank, block_received->index, status.MPI_SOURCE);
+        //Aca va el mutex que evita el cambio de last block (mutexChangeBlock)
+        mutexChangeBlock.lock();
         validate_block_for_chain(block_received, &status);
+        mutexChangeBlock.unlock();
         amount_blocks_received = 0;
       }
 	}
@@ -256,7 +276,7 @@ int node(){
         char* hash_buffer[HASH_SIZE];
         MPI_Recv(hash_buffer, amount_hash_received, MPI_CHAR, MPI_ANY_SOURCE, TAG_CHAIN_HASH, MPI_COMM_WORLD, &status);
         printf("[%d] Recibí pedido de cambio de cadena del nodo %d \n", mpi_rank, status.MPI_SOURCE);
-        MPI_Isend(last_block_in_chain->block_hash, HASH_SIZE, MPI_CHAR, status.MPI_SOURCE, TAG_CHAIN_RESPONSE, MPI_COMM_WORLD, request); 
+        //MPI_Isend(last_block_in_chain->block_hash, HASH_SIZE, MPI_CHAR, status.MPI_SOURCE, TAG_CHAIN_RESPONSE, MPI_COMM_WORLD, request); 
 
         Block* blockchain = new Block[VALIDATION_BLOCKS];
         Block bloque = node_blocks[string(hash_buffer)];
