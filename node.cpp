@@ -11,6 +11,8 @@
 #include <semaphore.h>
 #include <mutex>
 
+#define ANSI_COLOR_RED     "\x1b[31m"
+
 int total_nodes, mpi_rank;
 Block *last_block_in_chain;
 map<string,Block> node_blocks;
@@ -33,19 +35,21 @@ bool verificar_y_migrar_cadena(const Block *rBlock, const MPI_Status *status){
 
   //TODO: Enviar mensaje TAG_CHAIN_HASH
   char last_hash[HASH_SIZE];
- // for(int i = (mpi_rank + 1) % total_nodes; i != mpi_rank; i = (i + 1) % total_nodes){
-    printf("[%d] Mando mensaje de cambio de cadena al nodo %d \n", mpi_rank, status->MPI_SOURCE);
-    strcpy(last_hash, rBlock->block_hash);
-    MPI_Isend(last_hash, HASH_SIZE, MPI_CHAR, status->MPI_SOURCE, TAG_CHAIN_HASH, MPI_COMM_WORLD, request); 
-  //}
+    
+  printf("\033[22;34m[%d] Mando mensaje de cambio de cadena al nodo %d \033[0m \n", mpi_rank, status->MPI_SOURCE);
+  strcpy(last_hash, rBlock->block_hash);
+  MPI_Isend(last_hash, HASH_SIZE, MPI_CHAR, status->MPI_SOURCE, TAG_CHAIN_HASH, MPI_COMM_WORLD, request); 
 
   //TODO: Recibir mensaje TAG_CHAIN_RESPONSE
   MPI_Status mistatus;
   int amount_blocks_received;
   MPI_Probe(status->MPI_SOURCE, TAG_CHAIN_RESPONSE, MPI_COMM_WORLD, &mistatus);
-  MPI_Get_count(status, *MPI_BLOCK, &amount_blocks_received);
-  MPI_Recv(blockchain, amount_blocks_received, *MPI_BLOCK, status->MPI_SOURCE, TAG_CHAIN_RESPONSE, MPI_COMM_WORLD, &mistatus);
-
+  MPI_Get_count(&mistatus, *MPI_BLOCK, &amount_blocks_received);
+  printf("\x1b[32m[%d] El nodo %d me mando %d bloques \033[0m \n", mpi_rank, status->MPI_SOURCE, amount_blocks_received);
+  
+  MPI_Recv(blockchain, amount_blocks_received, *MPI_BLOCK, mistatus.MPI_SOURCE, TAG_CHAIN_RESPONSE, MPI_COMM_WORLD, &mistatus);
+  printf("\x1b[32m[%d] Recibí la cadena que pedí, del nodo %d \033[0m \n", mpi_rank, status->MPI_SOURCE);
+  
   //TODO: Verificar que los bloques recibidos
   //sean válidos y se puedan acoplar a la cadena
   string hash_hex_str;
@@ -54,6 +58,8 @@ bool verificar_y_migrar_cadena(const Block *rBlock, const MPI_Status *status){
     delete []blockchain;
     return false;
   }
+
+
 
   for (int i =1; i<amount_blocks_received; ++i){
     block_to_hash(&blockchain[i],hash_hex_str);
@@ -68,9 +74,11 @@ bool verificar_y_migrar_cadena(const Block *rBlock, const MPI_Status *status){
     }
 
     if(node_blocks.find(hash_hex_str) != node_blocks.end() || blockchain[i].index ==1){
+      
       for(int j=0;j<=i;++j){
         node_blocks[blockchain[j].block_hash]=blockchain[j];
       }
+
       last_block_in_chain = &node_blocks[blockchain[0].block_hash];
       delete []blockchain;
       return true;
@@ -130,7 +138,7 @@ bool validate_block_for_chain(Block *rBlock, const MPI_Status *status){
       printf("[%d] Agregué el bloque con index %d, enviado por %d, a la lista \n", mpi_rank, rBlock->index, status->MPI_SOURCE);
       return true;
     }
-	lastBlockMtx.unlock();//aca iría unlock porque acá se terminan los chequeos que efectivamente agregan bloques, y si llego acá es porque aun no retorné
+	 lastBlockMtx.unlock();//aca iría unlock porque acá se terminan los chequeos que efectivamente agregan bloques, y si llego acá es porque aun no retorné
 
 
     //TODO: Si el índice del bloque recibido es
@@ -202,27 +210,26 @@ void* proof_of_work(void *sem){
 
       //Contar la cantidad de ceros iniciales (con el nuevo nonce)
       if(solves_problem(hash_hex_str)){
-    lastBlockMtx.lock();//acá pondría un lock, lo critico seria modificar el mapa y el puntero en esta funcion
+      lastBlockMtx.lock();//acá pondría un lock, lo critico seria modificar el mapa y el puntero en esta funcion
     //Movemos el lock aca por que asi no se modifica 2 veces el last block in chain  cuando me broadcastearon un nuevo bloque 
           //Verifico que no haya cambiado mientras calcula
     //Aca va mutex que evita el camgio de last block indevido (mutexChangeBlock)
-    mutexChangeBlock.lock();
+      mutexChangeBlock.lock();
           if(last_block_in_chain->index < block.index){
             mined_blocks += 1;
 
             /////CAMBIO EL CODIGO DE ELLOS, CREO QUE HACE FALTA ESTO
-            block.previous_block_hash[HASH_SIZE] = last_block_in_chain->block_hash[HASH_SIZE];
+            // block.previous_block_hash[HASH_SIZE] = last_block_in_chain->block_hash[HASH_SIZE];
+            strcpy(block.previous_block_hash, last_block_in_chain->block_hash);
             /////FIN CAMBIO
             
-		
             *last_block_in_chain = block;
             
             strcpy(last_block_in_chain->block_hash, hash_hex_str.c_str());
-            //last_block_in_chain->created_at = static_cast<unsigned long int> (time(NULL)); arreglo del bugg
             node_blocks[hash_hex_str] = *last_block_in_chain;
-		lastBlockMtx.unlock();//acá pondría el unlock
+		        lastBlockMtx.unlock();
             printf("[%d] Miné el bloque con index %d \n", mpi_rank, last_block_in_chain->index);
-
+          
             //TODO: Mientras comunico, no responder mensajes de nuevos nodos
             sem_wait((sem_t*) sem);
             broadcast_block(last_block_in_chain);
@@ -245,11 +252,11 @@ int node(){
 
   //La semilla de las funciones aleatorias depende del mpi_ranking
   srand(time(NULL) + mpi_rank);
+  
   printf("[MPI] Lanzando proceso %u\n", mpi_rank);
 
   last_block_in_chain = new Block;
-  // printf("node: cambio last_block_in_chain, index: %d, hash: %d \n", last_block_in_chain->index, last_block_in_chain->block_hash[HASH_SIZE]);
-
+ 
   //Inicializo el primer bloque
   last_block_in_chain->index = 0;
   last_block_in_chain->node_owner_number = mpi_rank;
@@ -279,11 +286,13 @@ int node(){
       MPI_Get_count(&status, *MPI_BLOCK, &amount_blocks_received);
       if (amount_blocks_received == 1) {
         Block* block_received = new Block;
-	 //para no escuchar mensajes de nuevos bloques mientras se está broadcasteando
-      sem_wait(sem_broadcast);
+	     
+        //para no escuchar mensajes de nuevos bloques mientras se está broadcasteando
+        sem_wait(sem_broadcast);
         MPI_Recv(block_received , amount_blocks_received, *MPI_BLOCK, MPI_ANY_SOURCE, TAG_NEW_BLOCK, MPI_COMM_WORLD, &status);
-	sem_post(sem_broadcast);//la duda seria si el post va aca o mas abajo
+	      sem_post(sem_broadcast);//la duda seria si el post va aca o mas abajo
         printf("[%d] Recibí el bloque con index %d, del nodo %d \n", mpi_rank, block_received->index, status.MPI_SOURCE);
+        
         //Aca va el mutex que evita el cambio de last block (mutexChangeBlock)
         mutexChangeBlock.lock();
         validate_block_for_chain(block_received, &status);
@@ -299,19 +308,23 @@ int node(){
         char hash_buffer[HASH_SIZE];
         MPI_Recv(hash_buffer, amount_hash_received, MPI_CHAR, MPI_ANY_SOURCE, TAG_CHAIN_HASH, MPI_COMM_WORLD, &status);
         printf("[%d] Recibí pedido de cambio de cadena del nodo %d \n", mpi_rank, status.MPI_SOURCE);
-        //MPI_Isend(last_block_in_chain->block_hash, HASH_SIZE, MPI_CHAR, status.MPI_SOURCE, TAG_CHAIN_RESPONSE, MPI_COMM_WORLD, request); 
 
         Block* blockchain = new Block[VALIDATION_BLOCKS];
         Block bloque = node_blocks[std::string(hash_buffer)];
         int i;
+
         for(i =0; i< VALIDATION_BLOCKS && bloque.index>1 ;++i){
           blockchain[i] = bloque;
           bloque=node_blocks[string(bloque.previous_block_hash)];
         }
+
         if(bloque.index ==1){
           blockchain[i]= bloque;
         }
-        MPI_Isend(blockchain, i+1, *MPI_BLOCK, status.MPI_SOURCE, TAG_CHAIN_RESPONSE, MPI_COMM_WORLD, request); 
+
+        MPI_Isend(blockchain, i, *MPI_BLOCK, status.MPI_SOURCE, TAG_CHAIN_RESPONSE, MPI_COMM_WORLD, request); 
+        printf("\x1b[33m[%d] Envío cadena pedida por el nodo %d, de tamano %d \033[0m \n", mpi_rank, status.MPI_SOURCE, i);
+      
         amount_hash_received = 0;
          delete []blockchain;
       }
