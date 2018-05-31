@@ -42,6 +42,7 @@ bool verificar_y_migrar_cadena(const Block *rBlock, const MPI_Status *status){
   //TODO: Recibir mensaje TAG_CHAIN_RESPONSE
   MPI_Status mistatus;
   int amount_blocks_received;
+  MPI_Probe(status->MPI_SOURCE, TAG_CHAIN_RESPONSE, MPI_COMM_WORLD, &mistatus);
   MPI_Get_count(&status, *MPI_BLOCK, &amount_blocks_received);
   MPI_Recv(blockchain, amount_blocks_received, *MPI_BLOCK, status->MPI_SOURCE, TAG_CHAIN_RESPONSE, MPI_COMM_WORLD, &mistatus);
 
@@ -52,6 +53,28 @@ bool verificar_y_migrar_cadena(const Block *rBlock, const MPI_Status *status){
   if(blockchain[0].index !=rBlock.index || strcmp(hash_hex_str,last_hash)!=0){
     delete []blockchain;
     return false;
+  }
+
+  for (int i =1; i<amount_blocks_received; ++i){
+    block_to_hash(&blockchain[i],hash_hex_str);
+    if(strcmp(hash_hex_str,blockchain[i].block_hash)!=0){
+      delete []blockchain;
+      return false;
+    }
+
+    if(blockchain[i-1].index-1!=blockchain[i].index || strcmp(blockchain[i-1].previous_block_hash, blockchain[i].block_hash)!=0){
+        delete []blockchain;
+        return false;
+    }
+
+    if(node_blocks.find(hash_to_check) != node_blocks.end() || blockchain[i].index ==1){
+      for(int j=0;j<=i;++j){
+        node_blocks[blockchain[j].block_hash]=blockchain[j];
+      }
+      last_block_in_chain = &nde_blocks[blockchain[0]];
+      delete []blockchain;
+      return true;
+    }
   }
 
 
@@ -76,7 +99,7 @@ bool verificar_y_migrar_cadena(const Block *rBlock, const MPI_Status *status){
 void agregar_como_ultimo(Block* b) {
   strcpy(b->previous_block_hash, last_block_in_chain->block_hash);
   last_block_in_chain = b;  
-	lastBlockMtx.unlock();//aca iria el unlock
+	lastBlockMtx.unlock();//aca iria el unlock <-- creo que esto no va TOCHECK: aca se hace unlock pero cunando salis de este metodo se vuelve a hacer unlock
 }
 
 //Verifica que el bloque tenga que ser incluido en la cadena, y lo agrega si corresponde

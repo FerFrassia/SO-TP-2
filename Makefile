@@ -1,6 +1,6 @@
 .PHONY : all clean run new
 
-MPIROOT = /home/fer/.openmpi
+MPIROOT = /home/apenas/.openmpi
 
 CFLAGS+= -Wall -std=c++11 -pthread -g $(INCL)
 CC=gcc
