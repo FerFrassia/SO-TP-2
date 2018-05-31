@@ -32,9 +32,9 @@ bool verificar_y_migrar_cadena(const Block *rBlock, const MPI_Status *status){
   }
 
   //TODO: Enviar mensaje TAG_CHAIN_HASH
-  char* last_hash[HASH_SIZE];
+  char last_hash[HASH_SIZE];
  // for(int i = (mpi_rank + 1) % total_nodes; i != mpi_rank; i = (i + 1) % total_nodes){
-    printf("[%d] Mando mensaje de cambio de cadena al nodo %d \n", mpi_rank, i);
+    printf("[%d] Mando mensaje de cambio de cadena al nodo %d \n", mpi_rank, status->MPI_SOURCE);
     strcpy(last_hash, rBlock->block_hash);
     MPI_Isend(last_hash, HASH_SIZE, MPI_CHAR, status->MPI_SOURCE, TAG_CHAIN_HASH, MPI_COMM_WORLD, request); 
   //}
@@ -43,21 +43,21 @@ bool verificar_y_migrar_cadena(const Block *rBlock, const MPI_Status *status){
   MPI_Status mistatus;
   int amount_blocks_received;
   MPI_Probe(status->MPI_SOURCE, TAG_CHAIN_RESPONSE, MPI_COMM_WORLD, &mistatus);
-  MPI_Get_count(&status, *MPI_BLOCK, &amount_blocks_received);
+  MPI_Get_count(status, *MPI_BLOCK, &amount_blocks_received);
   MPI_Recv(blockchain, amount_blocks_received, *MPI_BLOCK, status->MPI_SOURCE, TAG_CHAIN_RESPONSE, MPI_COMM_WORLD, &mistatus);
 
   //TODO: Verificar que los bloques recibidos
   //sean válidos y se puedan acoplar a la cadena
   string hash_hex_str;
   block_to_hash(&blockchain[0],hash_hex_str);
-  if(blockchain[0].index !=rBlock.index || strcmp(hash_hex_str,last_hash)!=0){
+  if(blockchain[0].index !=rBlock->index || strcmp(hash_hex_str.c_str(),last_hash)!=0){
     delete []blockchain;
     return false;
   }
 
   for (int i =1; i<amount_blocks_received; ++i){
     block_to_hash(&blockchain[i],hash_hex_str);
-    if(strcmp(hash_hex_str,blockchain[i].block_hash)!=0){
+    if(strcmp(hash_hex_str.c_str(),blockchain[i].block_hash)!=0){
       delete []blockchain;
       return false;
     }
@@ -67,11 +67,11 @@ bool verificar_y_migrar_cadena(const Block *rBlock, const MPI_Status *status){
         return false;
     }
 
-    if(node_blocks.find(hash_to_check) != node_blocks.end() || blockchain[i].index ==1){
+    if(node_blocks.find(hash_hex_str) != node_blocks.end() || blockchain[i].index ==1){
       for(int j=0;j<=i;++j){
         node_blocks[blockchain[j].block_hash]=blockchain[j];
       }
-      last_block_in_chain = &nde_blocks[blockchain[0]];
+      last_block_in_chain = &node_blocks[blockchain[0].block_hash];
       delete []blockchain;
       return true;
     }
@@ -296,13 +296,13 @@ int node(){
       //responderlo enviando los bloques correspondientes
       MPI_Get_count(&status, MPI_CHAR, &amount_hash_received);
       if (amount_hash_received == HASH_SIZE  && status.MPI_TAG == TAG_CHAIN_HASH) {
-        char* hash_buffer[HASH_SIZE];
+        char hash_buffer[HASH_SIZE];
         MPI_Recv(hash_buffer, amount_hash_received, MPI_CHAR, MPI_ANY_SOURCE, TAG_CHAIN_HASH, MPI_COMM_WORLD, &status);
         printf("[%d] Recibí pedido de cambio de cadena del nodo %d \n", mpi_rank, status.MPI_SOURCE);
         //MPI_Isend(last_block_in_chain->block_hash, HASH_SIZE, MPI_CHAR, status.MPI_SOURCE, TAG_CHAIN_RESPONSE, MPI_COMM_WORLD, request); 
 
         Block* blockchain = new Block[VALIDATION_BLOCKS];
-        Block bloque = node_blocks[string(hash_buffer)];
+        Block bloque = node_blocks[std::string(hash_buffer)];
         int i;
         for(i =0; i< VALIDATION_BLOCKS && bloque.index>1 ;++i){
           blockchain[i] = bloque;
